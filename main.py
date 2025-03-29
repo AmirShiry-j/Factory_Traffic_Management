@@ -2,7 +2,7 @@ from AccountManagerService import AccountManagerService
 
 managerService = AccountManagerService()
 
-isSuccess,message=managerService.RegisterNewUser("Amir","Shiry","3920934121")
+(isSuccess,message)=managerService.RegisterNewUser("Am433443ir55","333","455445")
 
 print(isSuccess,message)
 
