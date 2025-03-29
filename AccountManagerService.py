@@ -23,7 +23,7 @@ class AccountManagerService:
         #check exist
         user=self.__usersRepository.GetUserByUserId(UserId)
         if (user is None):
-            return (False,"User with this ID is not exist")
+            return (False,f"User with ID {UserId} does not exist.")
         
         #check exist histories of user 
         userHasAnyHistory = self.__usersRepository.CheckUserHasAnyHistory(UserId)
@@ -32,6 +32,23 @@ class AccountManagerService:
         
         #Delete user
         self.__usersRepository.DeleteByUserId(UserId)
+        return (True,"User Deleted.")
+            
+    def DeleteUserByNationalCode(self,NationalCode):
+        #Get user from db
+        
+        #check exist
+        user=self.__usersRepository.GetUserByNationalCode(NationalCode)
+        if (user is None):
+            return (False,f"User with national code {NationalCode} does not exist.")
+        
+        #check exist histories of user 
+        userHasAnyHistory = self.__usersRepository.CheckUserHasAnyHistory(NationalCode)
+        if(userHasAnyHistory):
+            return (False,"The user has a registered history. It cannot be deleted.")
+        
+        #Delete user
+        self.__usersRepository.DeleteByNationalCode(NationalCode)
         return (True,"User Deleted.")
             
 

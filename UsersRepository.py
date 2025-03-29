@@ -53,3 +53,18 @@ class UsersRepository:
         cursor.execute(f"select Id,FirstName,LastName,NationalCode from Users where id="+str(UserId))
         row=cursor.fetchone()
         return row
+    
+    def GetUserByNationalCode(self,NationalCode):
+        conn=sqlite3.connect(self.__db_Name)
+        cursor=conn.cursor()
+        cursor.execute(f"select Id,FirstName,LastName,NationalCode from Users where NationalCode="+str(NationalCode))
+        row=cursor.fetchone()
+        return row
+
+    def DeleteByNationalCode(self,NationalCode):
+        conn=sqlite3.connect(self.__db_Name)
+        cursor=conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON ")
+        cursor.execute("DELETE from users where NationalCode="+str(NationalCode))
+        conn.commit()   
+        conn.close()
