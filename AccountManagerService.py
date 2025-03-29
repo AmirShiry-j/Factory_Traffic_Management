@@ -13,5 +13,8 @@ class AccountManagerService:
         else:
             return (False,"This national code has already been registered.")
 
+    def GetAllUsers(self):
+        users=self.__usersRepository.GetAllUsers()
+        return users
 
 

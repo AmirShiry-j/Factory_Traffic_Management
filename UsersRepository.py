@@ -21,3 +21,10 @@ class UsersRepository:
         conn.close()
 
         return count>0
+    
+    def GetAllUsers(self):
+        conn=sqlite3.connect(self.__db_Name)
+        cursor=conn.cursor()
+        cursor.execute(f"select Id,FirstName,LastName,NationalCode from Users")
+        rows=cursor.fetchall()
+        return rows
