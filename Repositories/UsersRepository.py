@@ -1,9 +1,12 @@
 import sqlite3
+import os
 
 class UsersRepository:    
 
     def __init__(self):  
-        self.__db_Name="Taradod_Db.db"
+        base_dir = os.path.dirname(os.path.abspath(__file__))  #Current route
+        tempPath = os.path.join(base_dir, "Taradod_Db.db")
+        self.__db_Name = tempPath.replace("Repositories","DataBaseFiles")
 
     def Insert(self,FirstName,LastName,NationalCode):
         conn=sqlite3.connect(self.__db_Name)

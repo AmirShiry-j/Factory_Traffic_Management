@@ -1,4 +1,4 @@
-from UsersRepository import UsersRepository
+from Repositories.UsersRepository import UsersRepository
     
 class AccountManagerService:
     

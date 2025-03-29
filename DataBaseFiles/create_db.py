@@ -1,6 +1,9 @@
 import sqlite3
+import os
 
-conn=sqlite3.connect("Taradod_Db.db")
+base_dir = os.path.dirname(os.path.abspath(__file__))  #Current route
+db_Name = os.path.join(base_dir, "Taradod_Db.db")
+conn=sqlite3.connect(db_Name)
 cursor=conn.cursor()
 
 
@@ -16,10 +19,6 @@ CREATE TABLE Users (
     UNIQUE(NationalCode)
 )
 """)
-
-# cursor.execute("""
-# alter table Users add constraint Nathonal_Code unique(NationalCode);
-# """)
 
 
 cursor.execute("""
