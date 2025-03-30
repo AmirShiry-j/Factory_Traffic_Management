@@ -1,16 +1,25 @@
 from Services.AccountManagerService import AccountManagerService
-from Utilities.UI_Utility import UI_Utility
+from Utilities.UI_Helper import UI_Helper
+from Utilities.PromptManager import PromptManager
 
 managerService = AccountManagerService()
-uI_Utility=UI_Utility()
+uI_Helper=UI_Helper()
+promptManager=PromptManager()
 
-# (isSuccess,message)=managerService.DeleteUserByNationalCode(3920934121)
-# print(str(isSuccess)+" "+message)
+isYes = True
 
+while isYes:
+    #show menu
+    promptManager.ShowMenu()
+    #take work number
+    (isSuccessTakeWorkNumber,WorkNumber) = promptManager.TakeWorkNumber()
+    if isSuccessTakeWorkNumber==True:
+        print("Works...")
+    else: 
+        print("work number was not valid")
+    #Ask to conuinue
+    isYes = promptManager.ShowPromptWantToContinueYesOrNo()
 
-# users=managerService.GetAllUsers()
-# uI_Utility.ShowUsers(users)
-
-uI_Utility.ShowPromtYesNo()
+promptManager.Exist()
 
 
