@@ -1,4 +1,4 @@
-class UI_Utility:
+class UI_Helper:
     
     def __init__(self):  
         pass
