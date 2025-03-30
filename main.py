@@ -8,9 +8,9 @@ uI_Utility=UI_Utility()
 # print(str(isSuccess)+" "+message)
 
 
-users=managerService.GetAllUsers()
-uI_Utility.ShowUsers(users)
+# users=managerService.GetAllUsers()
+# uI_Utility.ShowUsers(users)
 
-
+uI_Utility.ShowPromtYesNo()
 
 
