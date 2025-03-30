@@ -9,6 +9,10 @@ promptManager=PromptManager()
 isYes = True
 
 while isYes:
+    #clear screen
+    promptManager.ClearScreen()
+    #say hello
+    promptManager.SayHello()
     #show menu
     promptManager.ShowMenu()
     #take work number
@@ -16,10 +20,10 @@ while isYes:
     if isSuccessTakeWorkNumber==True:
         print("Works...")
     else: 
-        print("work number was not valid")
+        pass
     #Ask to conuinue
     isYes = promptManager.ShowPromptWantToContinueYesOrNo()
-
+    
 promptManager.Exist()
 
 

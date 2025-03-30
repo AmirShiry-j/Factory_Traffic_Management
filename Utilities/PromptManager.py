@@ -1,10 +1,11 @@
 import sys
+import os
 
 class PromptManager:
     
     def __init__(self):  
         self.listWorkNumbers=(1,2)
-        self.__MaxAskQueation=4
+        self.__MaxAskQueation=2
 
     def ShowPromptWantToContinueYesOrNo(self):
         numberOfQestionsRemaining=self.__MaxAskQueation
@@ -25,10 +26,21 @@ class PromptManager:
         return False
     
     def Exist(self):
+        print()
         print("The program is over.")
         sys.exit()
     
+    def ClearScreen(self):
+        os.system('cls' if os.name=='nt' else 'clear')
+    
+    def SayHello(self):
+        print("Hello , Welcome to this App")
+        print()
+
+
     def ShowMenu(self):
+        print("This is our menu")
+        print()
         print("1 - Register new User")
         print("2 - List Users")
         print()
