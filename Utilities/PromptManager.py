@@ -1,13 +1,18 @@
 import sys
 import os
+from Services.AccountManagerService import AccountManagerService
+from Utilities.UI_Helper import UI_Helper
 
 class PromptManager:
     
     def __init__(self):  
         self.listWorkNumbers=(1,2)
         self.__MaxAskQueation=2
+        self.__accountManagerService=AccountManagerService()
+        self.__uI_Helper=UI_Helper()
 
     def ShowPromptWantToContinueYesOrNo(self):
+        print()
         numberOfQestionsRemaining=self.__MaxAskQueation
 
         while(numberOfQestionsRemaining>0):
@@ -34,11 +39,12 @@ class PromptManager:
         os.system('cls' if os.name=='nt' else 'clear')
     
     def SayHello(self):
-        print("Hello , Welcome to this App")
         print()
+        print("Hello , Welcome to this App")
 
 
     def ShowMenu(self):
+        print()
         print("This is our menu")
         print()
         print("1 - Register new User")
@@ -51,6 +57,7 @@ class PromptManager:
         workNumberIsValid=False
 
         while(workNumberIsValid==False and numberOfQestionsRemaining>0):
+            print()
             strWorkNumber = input("What do you want? Enter a Work Number  :  ")
             numberOfQestionsRemaining=numberOfQestionsRemaining-1
             
@@ -66,3 +73,8 @@ class PromptManager:
                 print("The work number entered was not valid.")
                 
         return False,0
+    
+    def ShowListUsers(self):
+        self.ClearScreen()
+        users=self.__accountManagerService.GetAllUsers()
+        self.__uI_Helper.ShowUsers(users)
