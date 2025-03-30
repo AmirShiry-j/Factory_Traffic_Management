@@ -43,7 +43,7 @@ class AccountManagerService:
             return (False,f"User with national code {NationalCode} does not exist.")
         
         #check exist histories of user 
-        userHasAnyHistory = self.__usersRepository.CheckUserHasAnyHistory(NationalCode)
+        userHasAnyHistory = self.__usersRepository.CheckUserHasAnyHistory(user[0])
         if(userHasAnyHistory):
             return (False,"The user has a registered history. It cannot be deleted.")
         

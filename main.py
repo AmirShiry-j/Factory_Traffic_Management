@@ -21,6 +21,9 @@ while isYes:
 
             case 2:#show list users                
                 promptManager.ShowListUsers()
+
+            case 3:#Delete user
+                promptManager.DeleteUser()
     else: 
         pass
     #Ask to conuinue

@@ -6,7 +6,7 @@ from Utilities.UI_Helper import UI_Helper
 class PromptManager:
     
     def __init__(self):  
-        self.listWorkNumbers=(1,2)
+        self.listWorkNumbers=(1,2,3)
         self.__MaxAskQueation=2
         self.__accountManagerService=AccountManagerService()
         self.__uI_Helper=UI_Helper()
@@ -49,6 +49,7 @@ class PromptManager:
         print()
         print("1 - Register new User")
         print("2 - List Users")
+        print("3 - Delete User")
         print()
             
     def TakeWorkNumber(self):
@@ -71,6 +72,7 @@ class PromptManager:
                 return True,workNumber
             else:
                 print("The entered work number is not in the list..")
+                continue
                 
         return False,0
     
@@ -88,3 +90,69 @@ class PromptManager:
         (isSuccess,message)=self.__accountManagerService.RegisterNewUser(firstName,lastName,nationalCode)
         print()
         print(message)
+
+    def DeleteUser(self):
+        self.ClearScreen()
+        print("You have entered the user deletion process ...")
+        print()
+        print("How do you want to delete the user? Delete by ID or delete by national code.")
+        print("choose one")
+        print("1 - Delete by ID")
+        print("2 - Delete by national code")
+
+        numberOfQestionsRemaining=self.__MaxAskQueation
+        strWayNumber=""
+        wayNumberIsValid=False
+        
+        while(wayNumberIsValid==False and numberOfQestionsRemaining>0):
+            print()
+            strWayNumber=input("Enter the desired option number  :  ")
+            numberOfQestionsRemaining=numberOfQestionsRemaining-1
+            
+            if(strWayNumber.isdigit()==False):
+                print("The answer was unclear.")
+                continue
+
+            wayNumber=int(strWayNumber)
+            #check WayNumber is part of the menu list 
+            validWayNumberIsExist = wayNumber in (1,2)
+
+            if(validWayNumberIsExist==True):
+                numberOfQestionsRemaining=self.__MaxAskQueation
+                
+                if wayNumber==1:
+                    userID="Do while :)"
+                    while(userID.isdigit()==False and numberOfQestionsRemaining>0):
+                        numberOfQestionsRemaining=numberOfQestionsRemaining-1
+                        print()
+
+                        userID=input("Enter ID :  ")
+                        if(userID.isdigit()==False):
+                            print("The answer was unclear.")
+                            continue
+                        
+                        (isSuccess,message) = self.__accountManagerService.DeleteUserByUserId(userID)
+                        print()
+                        print(message)
+                        return
+                else:
+
+                    nationalCode="Do while :)"
+                    while(nationalCode.isdigit()==False and numberOfQestionsRemaining>0):
+                        numberOfQestionsRemaining=numberOfQestionsRemaining-1
+                        print()
+
+                        nationalCode=input("Enter national code :  ")
+                        if(nationalCode.isdigit()==False):
+                            print("The answer was unclear.")
+                            continue
+
+                        (isSuccess,message) = self.__accountManagerService.DeleteUserByNationalCode(nationalCode)
+                        print()
+                        print(message)
+                        return
+
+            else:
+                print("The number entered is not one of the options...")
+                continue
+        return 
