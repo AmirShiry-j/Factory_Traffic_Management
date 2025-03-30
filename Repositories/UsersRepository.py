@@ -71,3 +71,10 @@ class UsersRepository:
         cursor.execute("DELETE from users where NationalCode="+str(NationalCode))
         conn.commit()   
         conn.close()
+    
+    def Update(self,Id,FirstName,LastName,NationalCode):
+        conn=sqlite3.connect(self.__db_Name)
+        cursor=conn.cursor()
+        cursor.execute("update users set FirstName=?,LastName=?,NationalCode=? where Id=?",(FirstName,LastName,NationalCode,Id))
+        conn.commit()   
+        conn.close()      

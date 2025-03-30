@@ -11,7 +11,7 @@ class AccountManagerService:
             self.__usersRepository.Insert(FirstName,LastName,NationalCode)
             return (True,"User successfully registered.")
         else:
-            return (False,"This national code has already been registered.")
+            return (False,"This national code has already been registered for another user.")
 
     def GetAllUsers(self):
         users=self.__usersRepository.GetAllUsers()
@@ -50,6 +50,20 @@ class AccountManagerService:
         #Delete user
         self.__usersRepository.DeleteByNationalCode(NationalCode)
         return (True,"User Deleted.")
-            
 
+    def UpdateUser(self,Id,FirstName,LastName,NationalCode):
+        #check exist
+        user=self.__usersRepository.GetUserByUserId(Id)
+        if (user is None):
+            return (False,f"User with ID {Id} does not exist.")
+        
+        #check NationalCode is uniqe if NationalCode is new
+        if(user[3]!=NationalCode):
+            hasNationalCode=self.__usersRepository.CheckHasNationalCodeBefore(NationalCode)
+            if(hasNationalCode==True):
+                return (False,"This national code has already been registered for another user.")
+        
+        #update user
+        self.__usersRepository.Update(Id,FirstName,LastName,NationalCode)
+        return (True,"User successfully updated.")
 
