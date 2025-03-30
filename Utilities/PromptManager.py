@@ -39,13 +39,13 @@ class PromptManager:
         os.system('cls' if os.name=='nt' else 'clear')
     
     def SayHello(self):
-        print()
+        self.ClearScreen()
         print("Hello , Welcome to this App")
 
 
     def ShowMenu(self):
         print()
-        print("This is our menu")
+        print("This is our work menu")
         print()
         print("1 - Register new User")
         print("2 - List Users")
@@ -70,7 +70,7 @@ class PromptManager:
             if(numberIsExist==True):
                 return True,workNumber
             else:
-                print("The work number entered was not valid.")
+                print("The entered work number is not in the list..")
                 
         return False,0
     
@@ -78,3 +78,13 @@ class PromptManager:
         self.ClearScreen()
         users=self.__accountManagerService.GetAllUsers()
         self.__uI_Helper.ShowUsers(users)
+
+    def RegisterNewUser(self):
+        self.ClearScreen()
+        print("Worker or employee information form ...")
+        firstName= input("Enter FirstName :  ")
+        lastName= input("Enter FirstName :  ")
+        nationalCode= input("Enter NationalCode :  ")
+        (isSuccess,message)=self.__accountManagerService.RegisterNewUser(firstName,lastName,nationalCode)
+        print()
+        print(message)
