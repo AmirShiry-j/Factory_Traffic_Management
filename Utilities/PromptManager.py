@@ -12,11 +12,11 @@ class PromptManager:
         self.__uI_Helper=UI_Helper()
 
     def ShowPromptWantToContinueYesOrNo(self):
-        print()
         numberOfQestionsRemaining=self.__MaxAskQueation
 
         while(numberOfQestionsRemaining>0):
 
+            print()
             strPrompt=input("Do you want to continue? (Yes/No)   :    ")
             strPrompt=strPrompt.lower()
             numberOfQestionsRemaining=numberOfQestionsRemaining-1
