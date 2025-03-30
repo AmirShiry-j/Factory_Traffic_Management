@@ -6,13 +6,13 @@ from Utilities.UI_Helper import UI_Helper
 class PromptManager:
     
     def __init__(self):  
-        self.listWorkNumbers=(1,2,3)
-        self.__MaxAskQueation=2
+        self.listWorkNumbers=(1,2,3,4)
+        self.__MaxCountTry=2
         self.__accountManagerService=AccountManagerService()
         self.__uI_Helper=UI_Helper()
 
     def ShowPromptWantToContinueYesOrNo(self):
-        numberOfQestionsRemaining=self.__MaxAskQueation
+        numberOfQestionsRemaining=self.__MaxCountTry
 
         while(numberOfQestionsRemaining>0):
 
@@ -50,10 +50,11 @@ class PromptManager:
         print("1 - Register new User")
         print("2 - List Users")
         print("3 - Delete User")
+        print("4 - Update User")
         print()
             
     def TakeWorkNumber(self):
-        numberOfQestionsRemaining=self.__MaxAskQueation
+        numberOfQestionsRemaining=self.__MaxCountTry
         strWorkNumber=""
         workNumberIsValid=False
 
@@ -85,7 +86,7 @@ class PromptManager:
         self.ClearScreen()
         print("Worker or employee information form ...")
         firstName= input("Enter FirstName :  ")
-        lastName= input("Enter FirstName :  ")
+        lastName= input("Enter LastName :  ")
         nationalCode= input("Enter NationalCode :  ")
         (isSuccess,message)=self.__accountManagerService.RegisterNewUser(firstName,lastName,nationalCode)
         print()
@@ -100,7 +101,7 @@ class PromptManager:
         print("1 - Delete by ID")
         print("2 - Delete by national code")
 
-        numberOfQestionsRemaining=self.__MaxAskQueation
+        numberOfQestionsRemaining=self.__MaxCountTry
         strWayNumber=""
         wayNumberIsValid=False
         
@@ -118,7 +119,7 @@ class PromptManager:
             validWayNumberIsExist = wayNumber in (1,2)
 
             if(validWayNumberIsExist==True):
-                numberOfQestionsRemaining=self.__MaxAskQueation
+                numberOfQestionsRemaining=self.__MaxCountTry
                 
                 if wayNumber==1:
                     userID="Do while :)"
@@ -156,3 +157,32 @@ class PromptManager:
                 print("The number entered is not one of the options...")
                 continue
         return 
+    
+    def UpdateUser(self):
+        self.ClearScreen()
+        numberOfQestionsRemaining=self.__MaxCountTry
+
+        print("You have entered the user updatation process ...")
+        print()
+        
+        id="ZYZ"
+        while(id.isdigit()==False and numberOfQestionsRemaining>0):
+            id= input("Enter ID :  ")
+            numberOfQestionsRemaining=numberOfQestionsRemaining-1
+            if(id.isdigit()==True):
+                continue
+            else:
+                print("ID must be a number.")
+                print()
+        
+        if(id.isdigit()==False):
+            return
+
+        firstName= input("Enter FirstName :  ")
+        lastName= input("Enter LastName :  ")
+        nationalCode= input("Enter NationalCode :  ")
+        (isSuccess,message)=self.__accountManagerService.UpdateUser(id,firstName,lastName,nationalCode)
+        print()
+        print(message)
+
+

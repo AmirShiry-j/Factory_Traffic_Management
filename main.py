@@ -24,6 +24,9 @@ while isYes:
 
             case 3:#Delete user
                 promptManager.DeleteUser()
+                
+            case 4:#Update user
+                promptManager.UpdateUser()
     else: 
         pass
     #Ask to conuinue
