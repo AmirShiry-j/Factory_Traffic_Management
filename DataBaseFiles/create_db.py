@@ -25,9 +25,11 @@ cursor.execute("""
 CREATE TABLE Taradods (
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     UserId INTEGER NOT NULL,
-    ArrivalTime TEXT NOT NULL,
-    DepartureTime TEXT NOT NULL,
-    Date TEXT NOT NULL,
+    Year INTEGER NOT NULL,
+    Month INTEGER NOT NULL,
+    Day INTEGER NOT NULL,
+    ArrivalTimeUnix INTEGER NOT NULL,
+    DepartureTimeUnix INTEGER NOT NULL,
     FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
 )
 """)
