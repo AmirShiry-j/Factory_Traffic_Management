@@ -51,7 +51,6 @@ class PromptManager:
         print("2 - List Users")
         print("3 - Delete User")
         print("4 - Update User")
-        print()
             
     def TakeWorkNumber(self):
         numberOfQestionsRemaining=self.__MaxCountTry
