@@ -16,17 +16,20 @@ while isYes:
     (isSuccessTakeWorkNumber,WorkNumber) = promptManager.TakeWorkNumber()
     if isSuccessTakeWorkNumber==True:
         match  WorkNumber:
-            case 1:#Register new user
-                promptManager.RegisterNewUser()
+            case 1:#Register Taradod
+                promptManager.RegisterTaradod()
 
             case 2:#show list users                
                 promptManager.ShowListUsers()
 
-            case 3:#Delete user
-                promptManager.DeleteUser()
-                
+            case 3:#Register new user
+                promptManager.RegisterNewUser()
+
             case 4:#Update user
                 promptManager.UpdateUser()
+
+            case 3:#Delete user
+                promptManager.DeleteUser()
     else: 
         pass
     #Ask to conuinue

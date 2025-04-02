@@ -19,7 +19,7 @@ class UsersRepository:
     def CheckHasNationalCodeBefore(self,NationalCode):
         conn=sqlite3.connect(self.__db_Name)
         cursor=conn.cursor()
-        cursor.execute(f"select count(*) from users where NationalCode='{NationalCode}'")
+        cursor.execute(f"select count(*) from users where NationalCode='"+str(NationalCode)+"'")
         count=cursor.fetchone()[0]
         conn.close()
 
@@ -60,7 +60,7 @@ class UsersRepository:
     def GetUserByNationalCode(self,NationalCode):
         conn=sqlite3.connect(self.__db_Name)
         cursor=conn.cursor()
-        cursor.execute(f"select Id,FirstName,LastName,NationalCode from Users where NationalCode="+str(NationalCode))
+        cursor.execute(f"select Id,FirstName,LastName,NationalCode from Users where NationalCode='"+str(NationalCode)+"'")
         row=cursor.fetchone()
         return row
 
@@ -68,7 +68,7 @@ class UsersRepository:
         conn=sqlite3.connect(self.__db_Name)
         cursor=conn.cursor()
         cursor.execute("PRAGMA foreign_keys = ON ")
-        cursor.execute("DELETE from users where NationalCode="+str(NationalCode))
+        cursor.execute("DELETE from users where NationalCode='"+str(NationalCode)+"'")
         conn.commit()   
         conn.close()
     

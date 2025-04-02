@@ -1,18 +1,31 @@
 from Repositories.TaradodsRepository import TaradodsRepository
+from Repositories.UsersRepository import UsersRepository
+from Services.DateConverter import DateConverter
 
 class TaradodService:
 
     def __init__(self):
         self.__taradodsRepository = TaradodsRepository()
+        self.__usersRepository = UsersRepository()
+        self.__dateConverter = DateConverter()
 
-    def RegisterNewTaradod(self, UserId, Year, Month, Day, ArrivalTimeUnix, DepartureTimeUnix):
+    def RegisterTaradod(self, NationalCode, Year, Month, Day, ArHour, ArMinute , DeHour , DeMinute):        
         # check exist recore
-        existing_taradod = self.__taradodsRepository.GetTaradod(UserId, Year, Month, Day)
+        user = self.__usersRepository.GetUserByNationalCode(NationalCode)
+        if user is None:
+            return (False,f"User with national code {NationalCode} does not exist.")
+        
+        # check exist recore
+        existing_taradod = self.__taradodsRepository.GetTaradod(user[0], Year, Month, Day)
         if existing_taradod is not None:
             return (False, "A record for this date and user already exists.")
         
+        #convet shamsi time to unix
+        ArrivalTimeUnix = self.__dateConverter.convert_shamsi_to_unix(Year,Month,Day,ArHour,ArMinute)
+        DepartureTimeUnix = self.__dateConverter.convert_shamsi_to_unix(Year,Month,Day,DeHour,DeMinute)
+
         # insert
-        self.__taradodsRepository.Insert(UserId, Year, Month, Day, ArrivalTimeUnix, DepartureTimeUnix)
+        self.__taradodsRepository.Insert(user[0], Year, Month, Day, ArrivalTimeUnix, DepartureTimeUnix)
         return (True, "Taradod successfully registered.")
 
     def UpdateTaradod(self, Id, Year, Month, Day, ArrivalTimeUnix, DepartureTimeUnix):
