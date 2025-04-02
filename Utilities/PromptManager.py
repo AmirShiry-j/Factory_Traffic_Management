@@ -11,7 +11,7 @@ class PromptManager:
         self.__MaxCountTry=2
         self.__accountManagerService=AccountManagerService()
         self.__taradodService=TaradodService()
-        self.__uI_Helper=UI_Helper()
+        self.__uI_Helper=UI_Helper(self.__MaxCountTry)
 
     def ShowPromptWantToContinueYesOrNo(self):
         numberOfQestionsRemaining=self.__MaxCountTry
@@ -57,29 +57,10 @@ class PromptManager:
 
             
     def TakeWorkNumber(self):
-        numberOfQestionsRemaining=self.__MaxCountTry
-        strWorkNumber=""
-        workNumberIsValid=False
+        print()
+        (isSuccess,workNumber) = self.__uI_Helper.get_WorkNumber_from_input(self.listWorkNumbers)
+        return isSuccess,workNumber
 
-        while(workNumberIsValid==False and numberOfQestionsRemaining>0):
-            print()
-            strWorkNumber = input("What do you want? Enter a Work Number  :  ")
-            numberOfQestionsRemaining=numberOfQestionsRemaining-1
-            
-            if(strWorkNumber.isdigit()==False):
-                print("The answer was unclear.")
-                continue
-            workNumber=int(strWorkNumber)
-            #check WorkNumber is part of the menu list 
-            numberIsExist = workNumber in self.listWorkNumbers
-            if(numberIsExist==True):
-                return True,workNumber
-            else:
-                print("The entered work number is not in the list..")
-                continue
-                
-        return False,0
-    
     def ShowListUsers(self):
         self.ClearScreen()
         users=self.__accountManagerService.GetAllUsers()
@@ -88,9 +69,12 @@ class PromptManager:
     def RegisterNewUser(self):
         self.ClearScreen()
         print("Worker or employee information form ...")
+        print()
         firstName= input("Enter FirstName :  ")
         lastName= input("Enter LastName :  ")
-        nationalCode= input("Enter NationalCode :  ")
+        (isSuccessNatio,nationalCode)=self.__uI_Helper.get_NationalCode_from_input()
+        if isSuccessNatio==False:
+            return
         (isSuccess,message)=self.__accountManagerService.RegisterNewUser(firstName,lastName,nationalCode)
         print()
         print(message)
@@ -99,67 +83,31 @@ class PromptManager:
         self.ClearScreen()
         print("You have entered the user deletion process ...")
         print()
-        print("How do you want to delete the user? Delete by ID or delete by national code.")
-        print("choose one")
-        print("1 - Delete by ID")
-        print("2 - Delete by national code")
 
-        numberOfQestionsRemaining=self.__MaxCountTry
-        strWayNumber=""
-        wayNumberIsValid=False
-        
-        while(wayNumberIsValid==False and numberOfQestionsRemaining>0):
+        (isSuccessWay,wayNumber)=self.__uI_Helper.get_WayNumberForDeleteUser_from_input()
+        if isSuccessWay==False:
+            return
+
+        if wayNumber==1:
+            (isSuccessUserId,userId)=self.__uI_Helper.get_UserId_from_input()
+            if isSuccessUserId==False:
+                return
+            (isSuccess,message) = self.__accountManagerService.DeleteUserByUserId(userId)
             print()
-            strWayNumber=input("Enter the desired option number  :  ")
-            numberOfQestionsRemaining=numberOfQestionsRemaining-1
+            print(message)
+            return
+        
+        else:
+            (isSuccessNatio,nationalCode)=self.__uI_Helper.get_NationalCode_from_input()
+            if isSuccessNatio==False:
+                return
             
-            if(strWayNumber.isdigit()==False):
-                print("The answer was unclear.")
-                continue
+            (isSuccess,message) = self.__accountManagerService.DeleteUserByNationalCode(nationalCode)
+            print()
+            print(message)
+            return
+       
 
-            wayNumber=int(strWayNumber)
-            #check WayNumber is part of the menu list 
-            validWayNumberIsExist = wayNumber in (1,2)
-
-            if(validWayNumberIsExist==True):
-                numberOfQestionsRemaining=self.__MaxCountTry
-                
-                if wayNumber==1:
-                    userID="Do while :)"
-                    while(userID.isdigit()==False and numberOfQestionsRemaining>0):
-                        numberOfQestionsRemaining=numberOfQestionsRemaining-1
-                        print()
-
-                        userID=input("Enter ID :  ")
-                        if(userID.isdigit()==False):
-                            print("The answer was unclear.")
-                            continue
-                        
-                        (isSuccess,message) = self.__accountManagerService.DeleteUserByUserId(userID)
-                        print()
-                        print(message)
-                        return
-                else:
-
-                    nationalCode="Do while :)"
-                    while(nationalCode.isdigit()==False and numberOfQestionsRemaining>0):
-                        numberOfQestionsRemaining=numberOfQestionsRemaining-1
-                        print()
-
-                        nationalCode=input("Enter national code :  ")
-                        if(nationalCode.isdigit()==False):
-                            print("The answer was unclear.")
-                            continue
-
-                        (isSuccess,message) = self.__accountManagerService.DeleteUserByNationalCode(nationalCode)
-                        print()
-                        print(message)
-                        return
-
-            else:
-                print("The number entered is not one of the options...")
-                continue
-        return 
     
     def UpdateUser(self):
         self.ClearScreen()
@@ -168,23 +116,18 @@ class PromptManager:
         print("You have entered the user updatation process ...")
         print()
         
-        id="ZYZ"
-        while(id.isdigit()==False and numberOfQestionsRemaining>0):
-            id= input("Enter ID :  ")
-            numberOfQestionsRemaining=numberOfQestionsRemaining-1
-            if(id.isdigit()==True):
-                continue
-            else:
-                print("ID must be a number.")
-                print()
-        
-        if(id.isdigit()==False):
+        (isSuccessUserId,userId)=self.__uI_Helper.get_UserId_from_input()
+        if isSuccessUserId==False:
             return
 
         firstName= input("Enter FirstName :  ")
         lastName= input("Enter LastName :  ")
-        nationalCode= input("Enter NationalCode :  ")
-        (isSuccess,message)=self.__accountManagerService.UpdateUser(id,firstName,lastName,nationalCode)
+
+        (isSuccessNatio,nationalCode)=self.__uI_Helper.get_NationalCode_from_input()
+        if isSuccessNatio==False:
+            return
+        
+        (isSuccess,message)=self.__accountManagerService.UpdateUser(userId,firstName,lastName,nationalCode)
         print()
         print(message)
 
@@ -198,11 +141,11 @@ class PromptManager:
         (isSuccessNatio,nationalCode)=self.__uI_Helper.get_NationalCode_from_input()
         if isSuccessNatio==False:
             return
-
+        
         (isSuccessDate,year,month,day)=self.__uI_Helper.get_shamsi_date_from_input()
         if isSuccessDate==False:
             return
-        
+
         (isSuccessArrivalTime,ArHour,ArMinute)=self.__uI_Helper.get_time_from_input("Arrival")
         if isSuccessArrivalTime==False:
             return

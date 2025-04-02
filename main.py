@@ -1,7 +1,6 @@
 from Utilities.UI_Helper import UI_Helper
 from Utilities.PromptManager import PromptManager
 
-uI_Helper=UI_Helper()
 promptManager=PromptManager()
 
 #say hello
@@ -28,7 +27,7 @@ while isYes:
             case 4:#Update user
                 promptManager.UpdateUser()
 
-            case 3:#Delete user
+            case 5:#Delete user
                 promptManager.DeleteUser()
     else: 
         pass
