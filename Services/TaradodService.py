@@ -21,8 +21,12 @@ class TaradodService:
             return (False, "A record for this date and user already exists.")
         
         #convet shamsi time to unix
-        ArrivalTimeUnix = self.__dateConverter.convert_shamsi_to_unix(Year,Month,Day,ArHour,ArMinute)
-        DepartureTimeUnix = self.__dateConverter.convert_shamsi_to_unix(Year,Month,Day,DeHour,DeMinute)
+        ArrivalTimeUnix = self.__dateConverter.ConvertShamsiToUnix(Year,Month,Day,ArHour,ArMinute)
+        DepartureTimeUnix = self.__dateConverter.ConvertShamsiToUnix(Year,Month,Day,DeHour,DeMinute)
+
+        #Checking the reasonableness of Arrival and Departure times
+        if not ArrivalTimeUnix<DepartureTimeUnix:
+            return (False, "The check-in and check-out times are not reasonable. The check-in time cannot be after the check-out time.")
 
         # insert
         self.__taradodsRepository.Insert(user[0], Year, Month, Day, ArrivalTimeUnix, DepartureTimeUnix)

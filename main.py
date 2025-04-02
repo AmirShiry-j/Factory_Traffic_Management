@@ -10,7 +10,10 @@ isYes = True
 
 while isYes:
     #show menu
+    print()
     promptManager.ShowMenu()
+
+    print()
     #take work number
     (isSuccessTakeWorkNumber,WorkNumber) = promptManager.TakeWorkNumber()
     if isSuccessTakeWorkNumber==True:
@@ -29,15 +32,20 @@ while isYes:
 
             case 5:#Delete user
                 promptManager.DeleteUser()
+
+            case 0:#Delete user
+                promptManager.Exist()
     else: 
         pass
     #Ask to conuinue
+    print()
     isYes = promptManager.ShowPromptWantToContinueYesOrNo()
     
     if isYes:
         #clear screen
         promptManager.ClearScreen()
     
+
 promptManager.Exist()
 
 

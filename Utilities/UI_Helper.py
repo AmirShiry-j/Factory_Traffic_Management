@@ -5,6 +5,26 @@ class UI_Helper:
     def __init__(self,maxCoutTry):  
         self.__MaxCountTry=maxCoutTry
 
+    
+    def get_answer_Continue_input(self):
+        maxTry=self.__MaxCountTry
+        attempts = 0  
+
+        while attempts < maxTry:
+            answer = input("Do you want to continue? (Yes/No)   :    ") 
+            answer=answer.lower()
+            
+            if (answer=="yes"):
+                return True
+            elif (answer=="no"):
+                return False
+            else:
+                print("The answer was unclear.")
+                
+            attempts += 1  
+
+        print(f"You have entered a unclear answer {maxTry} times")
+        return False
 
     def ShowUsers(self,users):
         if(users is not None and len(users)==0):
@@ -20,7 +40,6 @@ class UI_Helper:
 
         attempts = 0 
         while attempts < maxTry:
-            print()
             time_str = input(f"Enter {title} (HH:MM or H:M format): ") 
 
             # بررسی فرمت با regex (قبول کردن هر دو فرمت HH:MM و H:M)
@@ -48,7 +67,6 @@ class UI_Helper:
         maxTry=self.__MaxCountTry
         attempts = 0  
         while attempts < maxTry:
-            print()
             date_str = input("Enter shamsi date (YYYY/MM/DD or YYYY/M/D): ")  
 
             match = re.match(r"(\d{4})/(\d{1,2})/(\d{1,2})", date_str)
@@ -83,7 +101,6 @@ class UI_Helper:
 
             else:
                 print("Invalid format. Please enter a ten-digit number for the national code.")
-                print()
                 
             attempts += 1  
 
@@ -105,10 +122,8 @@ class UI_Helper:
                     return True,workNumber
                 else:
                     print("The entered work number is not in the list.")
-                    print()
             else:
                 print("Invalid format. Please enter a Number in the menu.")
-                print()
                 
             attempts += 1  
 
@@ -127,7 +142,6 @@ class UI_Helper:
                 return True,int(userId_str)
             else:
                 print("Invalid format. Please enter a valid Number.")
-                print()
                 
             attempts += 1  
 
@@ -139,7 +153,7 @@ class UI_Helper:
         print("choose one")
         print("1 - Delete by ID")
         print("2 - Delete by national code")
-        
+        print()
         maxTry=self.__MaxCountTry
         attempts = 0  
         while attempts < maxTry:
@@ -154,10 +168,8 @@ class UI_Helper:
                     return True,wayNumber
                 else:
                     print("The entered number is not in the list.")
-                    print()
             else:
                 print("The answer was unclear.")
-                print()
                 
             attempts += 1  
 
@@ -171,7 +183,8 @@ class UI_Helper:
         print("1 - Today")
         print("2 - Yesterday")
         print("3 - Other dates")
-        
+        print()
+
         maxTry=self.__MaxCountTry
         attempts = 0  
         while attempts < maxTry:
@@ -186,13 +199,19 @@ class UI_Helper:
                     return True,answerNumber
                 else:
                     print("The entered number is not in the list.")
-                    print()
             else:
                 print("The answer was unclear.")
-                print()
                 
             attempts += 1  
 
         print(f"You have entered a unclear answer {maxTry} times")
         return False,0
+    
+    def get_firstName_input(self):
+        firstName= input("Enter FirstName :  ")
+        return firstName
+        
+    def get_lastName_input(self):
+        firstName= input("Enter LastName :  ")
+        return firstName
     
