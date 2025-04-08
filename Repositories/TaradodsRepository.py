@@ -54,3 +54,20 @@ class TaradodsRepository:
 
         conn.close()
         return record 
+    
+    
+    def GetReportForOneUser(self, UserId, start_unix,end_unix):
+        conn = sqlite3.connect(self.__db_Name)
+        cursor = conn.cursor()
+        cursor.execute("PRAGMA foreign_keys = ON") 
+
+        cursor.execute("""
+            select t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix from Taradods t
+            where t.UserId=? and (t.ArrivalTimeUnix>=? and t.DepartureTimeUnix<=?)
+            group by t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix
+            order by t.ArrivalTimeUnix
+        """, (UserId, start_unix,end_unix))
+        rows=cursor.fetchall()
+        conn.commit()
+        conn.close() 
+        return rows

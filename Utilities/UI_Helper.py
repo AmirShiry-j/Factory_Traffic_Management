@@ -177,7 +177,7 @@ class UI_Helper:
         return False,0
     
 
-    def get_WhenDate_input(self):
+    def get_WhenDate_for_RegisterTaradod_input(self):
         print("When do you plan to register for traffic?")
         print("choose one")
         print("1 - Today")
@@ -215,3 +215,70 @@ class UI_Helper:
         firstName= input("Enter LastName :  ")
         return firstName
     
+    def get_WhenDate_for_report_input(self):
+        print("When do you want to receive the report?")
+        print("choose one")
+        print("1 - This Month")
+        print("2 - Last Month")
+        print("3 - This Year")
+        print("4 - Last Year")
+        print("5 - Precise determination of the time period")
+        print()
+
+        maxTry=self.__MaxCountTry
+        attempts = 0  
+        while attempts < maxTry:
+            answerNumber_str = input("Enter the desired option number  :  ") 
+            
+            match = re.match(r"^\d+$", answerNumber_str)
+
+            if match:
+                
+                if int(answerNumber_str) in (1,2,3,4,5):
+                    answerNumber=int(answerNumber_str)
+                    return True,answerNumber
+                else:
+                    print("The entered number is not in the list.")
+            else:
+                print("The answer was unclear.")
+                
+            attempts += 1  
+
+        print(f"You have entered a unclear answer {maxTry} times")
+        return False,0
+    
+    def get_shamsi_date_with_title_from_input(self,title):
+
+        maxTry=self.__MaxCountTry
+        attempts = 0  
+        while attempts < maxTry:
+            date_str = input(f"Enter the {title} shamsi date of the time period (YYYY/MM/DD or YYYY/M/D): ")  
+
+            match = re.match(r"(\d{4})/(\d{1,2})/(\d{1,2})", date_str)
+
+            if match:
+                year, month, day = map(int, match.groups())
+
+                if 1370 <= year <= 1500 and 1 <= month <= 12 and 1 <= day <= 31:
+
+                    return True,year, month, day
+                else:
+                    print("Invalid date. Year must be between 1370 and 1500, month between 1 and 12, and day between 1 and 31.")
+            else:
+                print("Invalid format. Please enter the date in YYYY/MM/DD or YYYY/M/D format.")
+
+            attempts += 1  
+
+        print(f"You have entered invalid input {maxTry} times")
+        return False,0,0,0
+    
+
+    def ShowReport(self,Records):
+        if(Records is not None and len(Records)==0):
+            print(f"There is not record")
+            return
+
+        print(f"{"Year".ljust(20)} {"Month".ljust(20)} {"Day".ljust(20)} {"ArrivalTimeUnix".ljust(20)} {"DepartureTimeUnix".ljust(20)} ")
+        for row in Records:
+            print(f"{str(row[0]).ljust(20)} {str(row[1]).ljust(20)} {str(row[2]).ljust(20)} {str(row[3]).ljust(20)} {str(row[4]).ljust(20)} ")
+        

@@ -33,6 +33,9 @@ while isYes:
             case 5:#Delete user
                 promptManager.DeleteUser()
 
+            case 6:#Report
+                promptManager.Report()
+
             case 0:#Delete user
                 promptManager.Exist()
     else: 

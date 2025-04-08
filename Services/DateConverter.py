@@ -28,3 +28,4 @@ class DateConverter:
         today = jdatetime.date.today()
         yesterday = today - jdatetime.timedelta(days=1)
         return yesterday.year, yesterday.month, yesterday.day
+    

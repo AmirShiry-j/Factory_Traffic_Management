@@ -59,3 +59,22 @@ class TaradodService:
             return (False, "No Taradod found for the given user and date.")
         
         return (True, taradod)
+    
+    
+    def GetReportForOneUser(self, NationalCode, start_unix,end_unix):        
+        # check exist recore
+        user = self.__usersRepository.GetUserByNationalCode(NationalCode)
+        if user is None:
+            return (False,f"User with national code {NationalCode} does not exist.",None)
+        
+        #Checking the reasonableness of Dates times
+        if not start_unix<end_unix:
+            return (False, "The start and exit dates are not reasonable. The start date cannot be after the end date.",None)
+
+        # get gozaresh from db
+        result= self.__taradodsRepository.GetReportForOneUser(user[0], start_unix, end_unix)
+        return (True, "",result)
+
+
+
+

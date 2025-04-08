@@ -4,16 +4,18 @@ from Services.AccountManagerService import AccountManagerService
 from Services.TaradodService import TaradodService
 from Utilities.UI_Helper import UI_Helper
 from Services.DateConverter import DateConverter
+from Services.JalaliDateRanges import JalaliDateRanges
 
 class PromptManager:
     
     def __init__(self):  
-        self.listWorkNumbers=(0,1,2,3,4,5)
+        self.listWorkNumbers=(0,1,2,3,4,5,6)
         self.__MaxCountTry=3
         self.__accountManagerService=AccountManagerService()
         self.__taradodService=TaradodService()
         self.__dateConverter=DateConverter()
         self.__uI_Helper=UI_Helper(self.__MaxCountTry)
+        self.__jalaliDateRanges=JalaliDateRanges()
 
     def ShowPromptWantToContinueYesOrNo(self):
         return self.__uI_Helper.get_answer_Continue_input()
@@ -40,6 +42,7 @@ class PromptManager:
         print("3 - Register new User")
         print("4 - Update User")
         print("5 - Delete User")
+        print("6 - Report")
         print("0 - Exit")
 
             
@@ -130,7 +133,7 @@ class PromptManager:
         print("You have entered the taradod register  process ...")
         print()
 
-        (isSuccessWhen,whenDateNumber)=self.__uI_Helper.get_WhenDate_input()
+        (isSuccessWhen,whenDateNumber)=self.__uI_Helper.get_WhenDate_for_RegisterTaradod_input()
         if isSuccessWhen==False:
             return
 
@@ -167,3 +170,52 @@ class PromptManager:
         (isSuccessReg,messageReg) = self.__taradodService.RegisterTaradod(nationalCode,year,month,day,ArHour,ArMinute,DeHour,DeMinute)
         print()
         print(messageReg)
+
+
+    def Report(self):
+        self.ClearScreen()
+        numberOfQestionsRemaining=self.__MaxCountTry
+
+        print("You have entered the Report process ...")
+        print()
+
+        (isSuccessNatio,nationalCode)=self.__uI_Helper.get_NationalCode_from_input()
+        if isSuccessNatio==False:
+            return
+
+        print()
+
+        (isSuccessWhen,whenDateNumber)=self.__uI_Helper.get_WhenDate_for_report_input()
+        if isSuccessWhen==False:
+            return
+
+        start_unix= end_unix = 0
+        match whenDateNumber:
+            case 1:#this month
+                (start_unix, end_unix)=self.__jalaliDateRanges.this_month()
+            case 2:#last month
+                (start_unix, end_unix)=self.__jalaliDateRanges.last_month()
+            case 3:#this year
+                (start_unix, end_unix)=self.__jalaliDateRanges.this_year()
+            case 4:#last year
+                (start_unix, end_unix)=self.__jalaliDateRanges.last_year()
+            case 5:#baze zamani
+                print()
+                (isSuccessStartDate,start_year , start_month, start_day)=self.__uI_Helper.get_shamsi_date_with_title_from_input("Start")
+                if isSuccessStartDate==False:
+                    return
+                print()
+                (isSuccessEndDate,end_year, end_month, end_day)=self.__uI_Helper.get_shamsi_date_with_title_from_input("End")
+                if isSuccessEndDate==False:
+                    return
+                (start_unix, end_unix)=self.__jalaliDateRanges.custom_range_unix(start_day,start_month,start_year,end_day, end_month, end_year)
+                
+        print()
+        
+        (isSuccessReport,messageReport,result) = self.__taradodService.GetReportForOneUser(nationalCode,start_unix,end_unix)
+        print()
+        if isSuccessReport==False:
+            print(messageReport)
+        else:
+            self.ClearScreen()
+            self.__uI_Helper.ShowReport(result)
