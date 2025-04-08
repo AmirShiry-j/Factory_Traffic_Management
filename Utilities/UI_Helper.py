@@ -278,7 +278,7 @@ class UI_Helper:
             print(f"There is not record")
             return
 
-        print(f"{"Year".ljust(20)} {"Month".ljust(20)} {"Day".ljust(20)} {"ArrivalTimeUnix".ljust(20)} {"DepartureTimeUnix".ljust(20)} ")
+        print(f"{"Year".ljust(20)} {"Month".ljust(20)} {"Day".ljust(20)} {"ArrivalTime".ljust(20)} {"DepartureTime".ljust(20)} {"duration".ljust(20)} ")
         for row in Records:
-            print(f"{str(row[0]).ljust(20)} {str(row[1]).ljust(20)} {str(row[2]).ljust(20)} {str(row[3]).ljust(20)} {str(row[4]).ljust(20)} ")
+            print(f"{str(row[0]).ljust(20)} {str(row[1]).ljust(20)} {str(row[2]).ljust(20)} {str(row[3]).ljust(20)} {str(row[4]).ljust(20)} {str(row[5]).ljust(20)} ")
         

@@ -62,10 +62,21 @@ class TaradodsRepository:
         cursor.execute("PRAGMA foreign_keys = ON") 
 
         cursor.execute("""
+            with cte as (
             select t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix from Taradods t
             where t.UserId=? and (t.ArrivalTimeUnix>=? and t.DepartureTimeUnix<=?)
             group by t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix
-            order by t.ArrivalTimeUnix
+                       )
+            select c.year,c.month,c.day,
+                        time(c.ArrivalTimeUnix, 'unixepoch') AS ArrivalTime , 
+                       time(c.DepartureTimeUnix, 'unixepoch') AS DepartureTime,
+
+                       time(c.DepartureTimeUnix - c.ArrivalTimeUnix, 'unixepoch') AS duration
+                       
+            from cte c
+            order by c.ArrivalTimeUnix
+            
+
         """, (UserId, start_unix,end_unix))
         rows=cursor.fetchall()
         conn.commit()
