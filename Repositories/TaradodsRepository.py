@@ -62,18 +62,21 @@ class TaradodsRepository:
         cursor.execute("PRAGMA foreign_keys = ON") 
 
         cursor.execute("""
-            with cte as (
-            select t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix from Taradods t
-            where t.UserId=? and (t.ArrivalTimeUnix>=? and t.DepartureTimeUnix<=?)
-            group by t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix
+            with first_infoes as (
+                       
+            select t.year,t.month,t.day,t.ArrivalTimeUnix,t.DepartureTimeUnix, (t.DepartureTimeUnix - t.ArrivalTimeUnix) as duration_unix
+            from Taradods t
+            where t.UserId=? and (t.ArrivalTimeUnix>=? and t.DepartureTimeUnix<=?) 
+                       
                        )
+
             select c.year,c.month,c.day,
                         time(c.ArrivalTimeUnix, 'unixepoch') AS ArrivalTime , 
                        time(c.DepartureTimeUnix, 'unixepoch') AS DepartureTime,
 
-                       time(c.DepartureTimeUnix - c.ArrivalTimeUnix, 'unixepoch') AS duration
+                       time(c.duration_unix, 'unixepoch') AS duration
                        
-            from cte c
+            from first_infoes c
             order by c.ArrivalTimeUnix
             
 
