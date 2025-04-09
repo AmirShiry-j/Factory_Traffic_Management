@@ -72,8 +72,10 @@ class TaradodService:
             return (False, "The start and exit dates are not reasonable. The start date cannot be after the end date.",None)
 
         # get gozaresh from db
-        result= self.__taradodsRepository.GetReportForOneUser(user[0], start_unix, end_unix)
-        return (True, "",result)
+        records,sumKarkards= self.__taradodsRepository.GetReportForOneUser(user[0], start_unix, end_unix)
+
+
+        return (True, "",records,sumKarkards)
 
 
 

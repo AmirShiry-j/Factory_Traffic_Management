@@ -73,8 +73,9 @@ class TaradodsRepository:
             select c.year,c.month,c.day,
                         time(c.ArrivalTimeUnix, 'unixepoch') AS ArrivalTime , 
                        time(c.DepartureTimeUnix, 'unixepoch') AS DepartureTime,
-
-                       time(c.duration_unix, 'unixepoch') AS duration
+                       
+                       time(c.duration_unix, 'unixepoch') AS duration,
+                       c.duration_unix
                        
             from first_infoes c
             order by c.ArrivalTimeUnix
@@ -84,4 +85,13 @@ class TaradodsRepository:
         rows=cursor.fetchall()
         conn.commit()
         conn.close() 
-        return rows
+
+        totalDurtionUnix = sum(item[6] for item in rows)
+
+        return rows,self.format_seconds(totalDurtionUnix)
+    
+    def format_seconds(self,seconds):
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        remaining_seconds = seconds % 60
+        return f"{hours}:{minutes:02}:{remaining_seconds:02}"

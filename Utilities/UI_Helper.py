@@ -32,6 +32,7 @@ class UI_Helper:
             return
 
         print(f"{"UserId".ljust(20)} {"FirstName".ljust(20)} {"LastName".ljust(20)} {"NationalCode".ljust(20)} ")
+        print()
         for row in users:
             print(f"{str(row[0]).ljust(20)} {str(row[1]).ljust(20)} {str(row[2]).ljust(20)} {str(row[3]).ljust(20)} ")
         
@@ -273,12 +274,16 @@ class UI_Helper:
         return False,0,0,0
     
 
-    def ShowReport(self,Records):
+    def ShowReport(self,Records,SumKarkards):
         if(Records is not None and len(Records)==0):
             print(f"There is not record")
             return
 
         print(f"{"Year".ljust(20)} {"Month".ljust(20)} {"Day".ljust(20)} {"ArrivalTime".ljust(20)} {"DepartureTime".ljust(20)} {"duration".ljust(20)} ")
+        print()
         for row in Records:
             print(f"{str(row[0]).ljust(20)} {str(row[1]).ljust(20)} {str(row[2]).ljust(20)} {str(row[3]).ljust(20)} {str(row[4]).ljust(20)} {str(row[5]).ljust(20)} ")
+
+        print()
+        print(f"Sum : {str(SumKarkards).rjust(107)} ")
         

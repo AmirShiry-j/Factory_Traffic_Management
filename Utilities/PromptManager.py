@@ -213,10 +213,10 @@ class PromptManager:
                 
         print()
         
-        (isSuccessReport,messageReport,result) = self.__taradodService.GetReportForOneUser(nationalCode,start_unix,end_unix)
+        (isSuccessReport,messageReport,records,sumKarkards) = self.__taradodService.GetReportForOneUser(nationalCode,start_unix,end_unix)
         print()
         if isSuccessReport==False:
             print(messageReport)
         else:
             self.ClearScreen()
-            self.__uI_Helper.ShowReport(result)
+            self.__uI_Helper.ShowReport(records,sumKarkards)
