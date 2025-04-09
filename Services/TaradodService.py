@@ -74,7 +74,6 @@ class TaradodService:
         # get gozaresh from db
         records,sumKarkards= self.__taradodsRepository.GetReportForOneUser(user[0], start_unix, end_unix)
 
-
         return (True, "",records,sumKarkards)
 
 

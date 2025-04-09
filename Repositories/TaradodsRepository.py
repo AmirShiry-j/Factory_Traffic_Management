@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from datetime import datetime
 
 class TaradodsRepository:
     def __init__(self):
@@ -71,11 +72,10 @@ class TaradodsRepository:
                        )
 
             select c.year,c.month,c.day,
-                        time(c.ArrivalTimeUnix, 'unixepoch') AS ArrivalTime , 
-                       time(c.DepartureTimeUnix, 'unixepoch') AS DepartureTime,
+                        c.ArrivalTimeUnix, 
+                        c.DepartureTimeUnix,
                        
-                       time(c.duration_unix, 'unixepoch') AS duration,
-                       c.duration_unix
+                        c.duration_unix
                        
             from first_infoes c
             order by c.ArrivalTimeUnix
@@ -85,13 +85,23 @@ class TaradodsRepository:
         rows=cursor.fetchall()
         conn.commit()
         conn.close() 
+        
+        totalDurtionUnix=converted_data=0
+        if(rows is not None and len(rows)!=0):
+            totalDurtionUnix = sum(item[5] for item in rows)
 
-        totalDurtionUnix = sum(item[6] for item in rows)
+            converted_data = [
+            (item[0],item[1],item[2], self.format_unix_to_time(item[3]), self.format_unix_to_time(item[4]),self.format_seconds(item[5]))
+            for item in rows
+            ]
 
-        return rows,self.format_seconds(totalDurtionUnix)
+        return converted_data,self.format_seconds(totalDurtionUnix)
     
     def format_seconds(self,seconds):
         hours = seconds // 3600
         minutes = (seconds % 3600) // 60
         remaining_seconds = seconds % 60
-        return f"{hours}:{minutes:02}:{remaining_seconds:02}"
+        return f"{hours:02}:{minutes:02}:{remaining_seconds:02}"
+    
+    def format_unix_to_time(self,unix_time):
+        return datetime.fromtimestamp(unix_time).strftime('%H:%M:%S')
