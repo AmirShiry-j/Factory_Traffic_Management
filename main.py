@@ -18,25 +18,25 @@ while isYes:
     (isSuccessTakeWorkNumber,WorkNumber) = promptManager.TakeWorkNumber()
     if isSuccessTakeWorkNumber==True:
         match  WorkNumber:
-            case 1:#Register Taradod
-                promptManager.RegisterTaradod()
-
-            case 2:#show list users                
-                promptManager.ShowListUsers()
-
-            case 3:#Register new user
-                promptManager.RegisterNewUser()
-
-            case 4:#Update user
-                promptManager.UpdateUser()
-
-            case 5:#Delete user
-                promptManager.DeleteUser()
-
-            case 6:#Report
+            case 1:
                 promptManager.Report()
 
-            case 0:#Delete user
+            case 2:      
+                promptManager.RegisterTaradod()
+
+            case 3:
+                promptManager.ShowListUsers()
+                
+            case 4:
+                promptManager.RegisterNewUser()
+                
+            case 5:
+                promptManager.UpdateUser()
+                
+            case 6:
+                promptManager.DeleteUser()
+
+            case 0:
                 promptManager.Exist()
     else: 
         pass

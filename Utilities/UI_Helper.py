@@ -111,7 +111,7 @@ class UI_Helper:
         maxTry=self.__MaxCountTry
         attempts = 0  
         while attempts < maxTry:
-            workNumber_str = input("Enter a Work Number :  ") 
+            workNumber_str = input("Enter a Number :  ") 
             
             match = re.match(r"^\d+$", workNumber_str)
 
@@ -121,7 +121,7 @@ class UI_Helper:
                     workNumber=int(workNumber_str)
                     return True,workNumber
                 else:
-                    print("The entered work number is not in the list.")
+                    print("The entered number is not in the list.")
             else:
                 print("Invalid format. Please enter a Number in the menu.")
                 

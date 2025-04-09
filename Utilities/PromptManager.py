@@ -30,19 +30,20 @@ class PromptManager:
     
     def SayHello(self):
         self.ClearScreen()
-        print("Hello , Welcome to this App")
+        print("Hello, welcome to the employee traffic management program ! :)")
 
 
     def ShowMenu(self):
         
-        print("This is our work menu")
+        print("What are you planning to do?")
+        print("This is our menu")
         print()
-        print("1 - Register Taradod")
-        print("2 - List Users")
-        print("3 - Register new User")
-        print("4 - Update User")
-        print("5 - Delete User")
-        print("6 - Report")
+        print("1 - Reporting of entry and exit")
+        print("2 - Registering of entry and exit")
+        print("3 - View the list of users")
+        print("4 - New user registration")
+        print("5 - Edit user information")
+        print("6 - Delete user information")
         print("0 - Exit")
 
             
